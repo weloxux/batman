@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+#coding=utf-8
+
+import os # Needed to execute shell commands
+
+width = int(os.popen("stty size", "r").read().split()[1]) # Get terminal width
+
+acpi = os.popen("acpi", "r").read().split(" ") # Run the acpi command to get battery info
+perc = int(acpi[3][0:-2]) # Get battery percentage from acpi's output
+char = "" if acpi[2] == "Charging," else " NOT" # If we're not charing, add " NOT" in between "and" and " charging"
+blocks = int((perc / 100) * (width - 2)) # Calculate the amount of "blocks" (number marks) to visualize the battery level
+
+print("Battery is currently at %i percent and%s charging." % (perc, char)) # Print the battery percentage and wether it's charging
+print("[" + blocks * "#" + (width - 2 - blocks) * "-" + "]") # Print a visual representation of the current battery level
+
