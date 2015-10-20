@@ -9,7 +9,8 @@ acpi = os.popen("acpi", "r").read().split(" ") # Run the acpi command to get bat
 perc = int(acpi[3][0:-2]) # Get battery percentage from acpi's output
 char = "" if acpi[2] == "Charging," else " NOT" # If we're not charing, add " NOT" in between "and" and " charging"
 blocks = int((perc / 100) * (width - 2)) # Calculate the amount of "blocks" (number marks) to visualize the battery level
+color = "\033[32m" if perc > 40 else "\033[33m"; color = "\033[31m" if perc < 5 else color # visualize battery level further by colorizing battery bar
 
 print("Battery is currently at %i percent and%s charging." % (perc, char)) # Print the battery percentage and wether it's charging
-print("[" + blocks * "#" + (width - 2 - blocks) * "-" + "]") # Print a visual representation of the current battery level
+print("[" + color + blocks * "#" + "\033[0m" + (width - 2 - blocks) * "-" + "]") # Print a visual representation of the current battery level
 
